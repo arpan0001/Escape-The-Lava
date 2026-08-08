@@ -16,7 +16,9 @@ namespace EscapeTheLava.Core
         private readonly WaveManager _waveManager;
         private readonly LifeManager _lifeManager;
         private readonly ScoreManager _scoreManager;
+        private readonly TimerManager _timerManager;
 
+        public int TotalDiamonds => 15;
         public GridData Grid =>
             _gridManager.Grid;
 
@@ -34,6 +36,9 @@ namespace EscapeTheLava.Core
 
         public int DiamondsCollected =>
             _waveManager.DiamondsCollected;
+
+        public float RemainingTime =>
+            _timerManager.RemainingTime;
 
         public GameState State
         {
@@ -54,6 +59,8 @@ namespace EscapeTheLava.Core
 
             _scoreManager =
                 new ScoreManager();
+            _timerManager =
+                 new TimerManager();
         }
 
         /// <summary>
@@ -72,6 +79,8 @@ namespace EscapeTheLava.Core
             _gridManager.Initialize();
 
             GenerateCurrentWave();
+
+            _timerManager.Reset();
         }
 
         /// <summary>
@@ -170,5 +179,20 @@ namespace EscapeTheLava.Core
 
             GenerateCurrentWave();
         }
+        public void Update(float deltaTime)
+        {
+            if (State != GameState.Playing)
+                return;
+
+            _timerManager.Update(deltaTime);
+
+            if (_timerManager.IsTimeUp)
+            {
+                State = GameState.GameOver;
+
+                GameEvents.GameOver?.Invoke();
+            }
+        }
+
     }
 }

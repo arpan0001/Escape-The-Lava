@@ -1,6 +1,7 @@
 using UnityEngine;
 using EscapeTheLava.Core;
 using EscapeTheLava.View;
+using EscapeTheLava.UI;
 
 namespace EscapeTheLava.Managers
 {
@@ -15,19 +16,29 @@ namespace EscapeTheLava.Managers
         private GridRenderer gridRenderer;
 
         private GameService _gameService;
+        [SerializeField]
+        private UIManager uiManager;
 
         private void Awake()
         {
-            // Create the backend game system.
             _gameService =
                 new GameService();
 
-            // Start the first wave.
             _gameService.Initialize();
 
-            // Display the generated board.
             gridRenderer.Initialize(
                 _gameService.Grid);
+
+            UpdateHUD();
+        }
+
+        private void Update()
+        {
+            _gameService.Update(
+            Time.deltaTime);
+
+            uiManager.UpdateTimer(
+                _gameService.RemainingTime);
         }
 
 
@@ -63,6 +74,23 @@ namespace EscapeTheLava.Managers
 
         private void UpdateUI()
         {
+        }
+
+        private void UpdateHUD()
+        {
+            uiManager.UpdateScore(
+                _gameService.DiamondsCollected,
+                _gameService.TotalDiamonds);
+
+            uiManager.UpdateLives(
+                _gameService.RemainingLives);
+
+            uiManager.UpdateWave(
+                _gameService.CurrentWave,
+                _gameService.TotalWaves);
+
+            uiManager.UpdateTimer(
+                _gameService.RemainingTime);
         }
     }
 }
