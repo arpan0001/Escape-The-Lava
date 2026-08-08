@@ -884,8 +884,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tilePrefab: {fileID: 4918093847260078162, guid: f88a45ac712c26a4586b663558753d55, type: 3}
   gridRoot: {fileID: 1661270383}
-  cellSize: 70
-  spacing: 25
+  cellSize: 75
+  spacing: 27
 --- !u!4 &676030811
 Transform:
   m_ObjectHideFlags: 0
