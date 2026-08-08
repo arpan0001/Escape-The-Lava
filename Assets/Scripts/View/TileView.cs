@@ -7,36 +7,35 @@ using EscapeTheLava.Data;
 namespace EscapeTheLava.View
 {
     /// <summary>
-    /// Controls the visual appearance of one grid tile
-    /// and detects when the player clicks/taps it.
-    /// 
-    /// TileView does NOT contain gameplay logic.
-    /// It only reports which tile was clicked.
+    /// Represents one cell of the game grid.
+    ///
+    /// TileView controls which visual object is visible:
+    /// Island, Diamond, or Lava.
+    ///
+    /// It also detects player clicks/taps.
+    ///
+    /// It does not contain gameplay logic.
     /// </summary>
     public class TileView : MonoBehaviour, IPointerClickHandler
     {
-        [Header("References")]
-        [SerializeField]
-        private Image background;
+        [Header("Tile Visuals")]
 
         [SerializeField]
-        private Image icon;
-
-        [Header("Sprites")]
-        [SerializeField]
-        private Sprite islandSprite;
+        private Image islandView;
 
         [SerializeField]
-        private Sprite diamondSprite;
+        private Image diamondView;
 
         [SerializeField]
-        private Sprite lavaSprite;
+        private Image lavaView;
+
 
         private int _x;
         private int _y;
 
+
         /// <summary>
-        /// Gives this visual tile its grid position.
+        /// Gives this tile its position in the grid.
         /// </summary>
         public void SetPosition(int x, int y)
         {
@@ -44,39 +43,47 @@ namespace EscapeTheLava.View
             _y = y;
         }
 
+
         /// <summary>
-        /// Changes the visual appearance of the tile.
+        /// Changes which visual object is visible.
         /// </summary>
         public void SetTile(TileType type)
         {
+            // First hide all visuals.
+            islandView.gameObject.SetActive(false);
+            diamondView.gameObject.SetActive(false);
+            lavaView.gameObject.SetActive(false);
+
+
+            // Then show the correct visual.
             switch (type)
             {
                 case TileType.Island:
 
-                    icon.sprite = islandSprite;
-                    icon.enabled = true;
+                    islandView.gameObject.SetActive(true);
 
                     break;
+
 
                 case TileType.Diamond:
 
-                    icon.sprite = diamondSprite;
-                    icon.enabled = true;
+                    diamondView.gameObject.SetActive(true);
 
                     break;
 
+
                 case TileType.Lava:
 
-                    icon.sprite = lavaSprite;
-                    icon.enabled = true;
+                    lavaView.gameObject.SetActive(true);
 
                     break;
             }
         }
 
+
         /// <summary>
-        /// Called automatically by Unity when
-        /// the player clicks/taps this UI tile.
+        /// Called automatically by Unity
+        /// when the player clicks or taps this tile.
         /// </summary>
         public void OnPointerClick(
             PointerEventData eventData)
@@ -84,8 +91,10 @@ namespace EscapeTheLava.View
             TileClicked?.Invoke(_x, _y);
         }
 
+
         /// <summary>
-        /// Sends the clicked grid position.
+        /// Sends the clicked grid position
+        /// to the system that is listening.
         /// </summary>
         public System.Action<int, int> TileClicked;
     }
