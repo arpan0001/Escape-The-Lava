@@ -5,7 +5,7 @@ using EscapeTheLava.Utilities;
 namespace EscapeTheLava.Managers
 {
     /// <summary>
-    /// Creates and manages the logical game board.
+    /// Creates and manages the logical board.
     /// This class does not create Unity GameObjects.
     /// </summary>
     public class GridManager
@@ -20,7 +20,7 @@ namespace EscapeTheLava.Managers
         }
 
         /// <summary>
-        /// Creates a new game board.
+        /// Creates the basic board.
         /// </summary>
         public void Initialize()
         {
@@ -28,37 +28,50 @@ namespace EscapeTheLava.Managers
                 GameConstants.GridColumns,
                 GameConstants.GridRows);
 
-            GenerateLevel();
+            GenerateBaseBoard();
         }
 
         /// <summary>
-        /// Creates the tile layout.
+        /// Creates a board containing islands,
+        /// lava and the diamonds for the current wave.
         /// </summary>
-        private void GenerateLevel()
+        public void GenerateWave(int diamondCount)
         {
             Grid.Clear();
 
-            // First fill every cell with a safe island.
+            // Start with safe islands.
+            FillWithIslands();
+
+            // Add lava obstacles.
+            PlaceRandomTiles(
+                TileType.Lava,
+                GameConstants.LavaCount);
+
+            // Add diamonds for this wave.
+            PlaceRandomTiles(
+                TileType.Diamond,
+                diamondCount);
+        }
+
+        private void GenerateBaseBoard()
+        {
+            FillWithIslands();
+        }
+
+        private void FillWithIslands()
+        {
             for (int x = 0; x < Grid.Columns; x++)
             {
                 for (int y = 0; y < Grid.Rows; y++)
                 {
-                    Grid.SetTile(x, y, TileType.Island);
+                    Grid.SetTile(
+                        x,
+                        y,
+                        TileType.Island);
                 }
             }
-
-            PlaceRandomTiles(
-                TileType.Diamond,
-                15);
-
-            PlaceRandomTiles(
-                TileType.Lava,
-                35);
         }
 
-        /// <summary>
-        /// Places a specific number of tiles randomly.
-        /// </summary>
         private void PlaceRandomTiles(
             TileType type,
             int amount)
@@ -67,25 +80,32 @@ namespace EscapeTheLava.Managers
 
             while (placed < amount)
             {
-                int x = _random.Next(0, Grid.Columns);
+                int x =
+                    _random.Next(
+                        0,
+                        Grid.Columns);
 
-                int y = _random.Next(0, Grid.Rows);
+                int y =
+                    _random.Next(
+                        0,
+                        Grid.Rows);
 
                 TileData currentTile =
                     Grid.GetTile(x, y);
 
+                // Only replace safe islands.
                 if (currentTile.Type != TileType.Island)
                     continue;
 
-                Grid.SetTile(x, y, type);
+                Grid.SetTile(
+                    x,
+                    y,
+                    type);
 
                 placed++;
             }
         }
 
-        /// <summary>
-        /// Creates a completely new level.
-        /// </summary>
         public void Restart()
         {
             Initialize();
