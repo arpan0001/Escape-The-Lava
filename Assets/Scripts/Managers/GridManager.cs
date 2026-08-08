@@ -31,6 +31,11 @@ namespace EscapeTheLava.Managers
             GenerateBaseBoard();
         }
 
+        public void SetTile(int x, int y, TileType type)
+        {
+            Grid.SetTile(x, y, type);
+        }
+
         /// <summary>
         /// Creates a board containing islands,
         /// lava and the diamonds for the current wave.

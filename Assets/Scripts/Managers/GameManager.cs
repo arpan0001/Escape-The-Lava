@@ -29,5 +29,40 @@ namespace EscapeTheLava.Managers
             gridRenderer.Initialize(
                 _gameService.Grid);
         }
+
+
+        private void OnEnable()
+        {
+            if (gridRenderer != null)
+            {
+                gridRenderer.TileClicked += OnTileClicked;
+            }
+        }
+
+        private void OnDisable()
+        {
+            if (gridRenderer != null)
+            {
+                gridRenderer.TileClicked -= OnTileClicked;
+            }
+        }
+
+        private void OnTileClicked(int x, int y)
+        {
+            bool handled =
+                _gameService.ClickTile(x, y);
+
+            if (!handled)
+                return;
+
+            gridRenderer.Render(
+                _gameService.Grid);
+
+            UpdateUI();
+        }
+
+        private void UpdateUI()
+        {
+        }
     }
 }

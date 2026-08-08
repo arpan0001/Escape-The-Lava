@@ -15,12 +15,12 @@ namespace EscapeTheLava.Utilities
         public const int StartingLives = 5;
 
         // Total number of diamonds required to win.
-        public const int TotalDiamonds = 15;
+        public const int TotalDiamonds = 25;
 
         // Number of diamonds visible in one wave.
         public const int DiamondsPerWave = 5;
 
         // Number of lava tiles on the board.
-        public const int LavaCount = 35;
+        public const int LavaCount = 55;
     }
 }

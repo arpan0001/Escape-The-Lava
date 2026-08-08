@@ -1,49 +1,64 @@
+using System;
 using UnityEngine;
 using EscapeTheLava.Data;
 
 namespace EscapeTheLava.View
 {
     /// <summary>
-    /// Converts the logical GridData into visible Unity tiles.
-    ///
-    /// This class does not decide what the tile means.
-    /// It only displays what GridData tells it.
+    /// Creates and displays the visual grid.
+    /// 
+    /// GridRenderer does not contain gameplay logic.
+    /// It only reads GridData and updates the TileViews.
     /// </summary>
     public class GridRenderer : MonoBehaviour
     {
         [Header("Grid References")]
+
         [SerializeField]
         private TileView tilePrefab;
 
         [SerializeField]
         private Transform gridRoot;
 
+
         [Header("Layout")]
-        [SerializeField]
-        private float cellSize = 90f;
 
         [SerializeField]
-        private float spacing = 6f;
+        private float cellSize = 55f;
 
+        [SerializeField]
+        private float spacing = 4f;
+
+
+        // Stores the visual TileView for every grid position.
         private TileView[,] _tileViews;
 
+
+        // Sends the clicked grid position to GameManager.
+        public event Action<int, int> TileClicked;
+
+
         /// <summary>
-        /// Creates all visual tiles.
+        /// Creates the visual grid and displays the initial state.
         /// </summary>
         public void Initialize(GridData grid)
         {
             CreateTiles(grid);
-
             Render(grid);
         }
 
+
+        /// <summary>
+        /// Creates one TileView for every logical grid cell.
+        /// </summary>
         private void CreateTiles(GridData grid)
         {
-            _tileViews =
-                new TileView[
-                    grid.Columns,
-                    grid.Rows];
+            _tileViews = new TileView[
+                grid.Columns,
+                grid.Rows];
 
+
+            // Calculate the complete size of the grid.
             float totalWidth =
                 grid.Columns * cellSize +
                 (grid.Columns - 1) * spacing;
@@ -52,6 +67,9 @@ namespace EscapeTheLava.View
                 grid.Rows * cellSize +
                 (grid.Rows - 1) * spacing;
 
+
+            // Calculate the starting position
+            // so the complete grid stays centered.
             float startX =
                 -totalWidth * 0.5f +
                 cellSize * 0.5f;
@@ -60,6 +78,8 @@ namespace EscapeTheLava.View
                 totalHeight * 0.5f -
                 cellSize * 0.5f;
 
+
+            // Create every visual tile.
             for (int y = 0; y < grid.Rows; y++)
             {
                 for (int x = 0; x < grid.Columns; x++)
@@ -69,9 +89,12 @@ namespace EscapeTheLava.View
                             tilePrefab,
                             gridRoot);
 
+
                     RectTransform rect =
                         tile.GetComponent<RectTransform>();
 
+
+                    // Position the tile.
                     rect.anchoredPosition =
                         new Vector2(
                             startX +
@@ -80,19 +103,46 @@ namespace EscapeTheLava.View
                             startY -
                             y * (cellSize + spacing));
 
+
+                    // Set the visual size.
                     rect.sizeDelta =
                         new Vector2(
                             cellSize,
                             cellSize);
 
+
+                    // Store the TileView.
                     _tileViews[x, y] = tile;
+
+
+                    // Tell the TileView its logical grid position.
+                    tile.SetPosition(x, y);
+
+
+                    // Listen for clicks.
+                    tile.TileClicked += OnTileClicked;
                 }
             }
         }
 
+
         /// <summary>
-        /// Updates the visual tiles
-        /// according to the logical grid.
+        /// Called when a TileView is clicked.
+        /// 
+        /// We forward the position to whoever is listening,
+        /// usually GameManager.
+        /// </summary>
+        private void OnTileClicked(int x, int y)
+        {
+            TileClicked?.Invoke(x, y);
+        }
+
+
+        /// <summary>
+        /// Updates the visual grid using the current GridData.
+        /// 
+        /// This method does not change the logical data.
+        /// It only displays it.
         /// </summary>
         public void Render(GridData grid)
         {
@@ -100,11 +150,9 @@ namespace EscapeTheLava.View
             {
                 for (int x = 0; x < grid.Columns; x++)
                 {
-                    TileData tile =
-                        grid.GetTile(x, y);
-
                     _tileViews[x, y]
-                        .SetTile(tile.Type);
+                        .SetTile(
+                            grid.GetTile(x, y).Type);
                 }
             }
         }
