@@ -45,9 +45,12 @@ namespace EscapeTheLava.UI
             int total)
         {
             scoreText.text =
-                $"💎 {collected}/{total}";
+                $" {collected}/{total}";
         }
-
+        public void HideWin()
+        {
+            winPanel.SetActive(false);
+        }
         /// <summary>
         /// Updates the current wave.
         /// </summary>

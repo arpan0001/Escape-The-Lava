@@ -127,5 +127,19 @@ namespace EscapeTheLava.Managers
                 uiManager.ShowGameOver();
             }
         }
+
+        public void RestartGame()
+        {
+            gameService.Restart();
+
+            gridRenderer.Render(gameService.Grid);
+
+            uiManager.UpdateHUD(
+                gameService.Score,
+                gameService.RemainingMoves,
+                gameService.Combo);
+
+            uiManager.HideWin();
+        }
     }
 }
