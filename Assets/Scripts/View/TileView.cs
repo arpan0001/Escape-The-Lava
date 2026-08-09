@@ -12,8 +12,8 @@ namespace EscapeTheLava.View
     /// Controls the visual appearance of one grid tile
     /// and detects player clicks.
     ///
-    /// This class handles visual effects only.
-    /// Gameplay logic is handled elsewhere.
+    /// TileView handles visual feedback only.
+    /// Gameplay logic is handled by GameManager/GameService.
     /// </summary>
     public class TileView : MonoBehaviour, IPointerClickHandler
     {
@@ -27,10 +27,31 @@ namespace EscapeTheLava.View
 
         [SerializeField]
         private Image lavaView;
+
+
         [Header("Score Popup")]
 
         [SerializeField]
         private ScorePopup scorePopupPrefab;
+
+
+        [Header("Lava Damage Effect")]
+
+        [SerializeField]
+        private BurnEffect burnEffect;
+
+        [SerializeField]
+        private float burnScale = 1.2f;
+
+        [SerializeField]
+        private float burnDuration = 0.15f;
+
+        [SerializeField]
+        private float burnJiggleAmount = 8f;
+
+        [SerializeField]
+        private float burnJiggleDuration = 0.2f;
+
 
         [Header("Diamond Collection Animation")]
 
@@ -41,12 +62,25 @@ namespace EscapeTheLava.View
         private float collectDuration = 0.15f;
 
 
+        // Logical grid position.
         private int _x;
         private int _y;
 
+
+        // Current type of this tile.
         private TileType _currentType;
 
+
+        // Prevents multiple clicks while
+        // an animation is running.
         private bool _isCollecting;
+
+
+        /// <summary>
+        /// Event sent when this tile is clicked.
+        /// Sends the tile's X and Y grid position.
+        /// </summary>
+        public event Action<int, int> TileClicked;
 
 
         /// <summary>
@@ -64,7 +98,9 @@ namespace EscapeTheLava.View
         /// </summary>
         public void SetTile(TileType type)
         {
+            // Remember the current tile type.
             _currentType = type;
+
 
             // Hide everything first.
             islandView.gameObject.SetActive(false);
@@ -83,6 +119,7 @@ namespace EscapeTheLava.View
                 case TileType.Island:
 
                     islandView.gameObject.SetActive(true);
+
                     break;
 
 
@@ -100,41 +137,69 @@ namespace EscapeTheLava.View
                 case TileType.Lava:
 
                     lavaView.gameObject.SetActive(true);
+
                     break;
             }
         }
 
 
         /// <summary>
-        /// Called by Unity when the player
-        /// clicks or taps this tile.
+        /// Called automatically by Unity when
+        /// the player clicks/taps this tile.
         /// </summary>
         public void OnPointerClick(
             PointerEventData eventData)
         {
-            // Prevent multiple clicks while
-            // the collection animation is running.
+            // Ignore clicks while an animation
+            // is already running.
             if (_isCollecting)
                 return;
 
 
-            // Only diamonds have the
-            // special collection animation.
+            // ================================
+            // DIAMOND
+            // ================================
+
             if (_currentType == TileType.Diamond)
             {
-                StartCoroutine(CollectDiamond());
+                StartCoroutine(
+                    CollectDiamond());
+
                 return;
             }
 
 
-            // For lava/island, send the click immediately.
-            TileClicked?.Invoke(_x, _y);
+            // ================================
+            // LAVA
+            // ================================
+
+            if (_currentType == TileType.Lava)
+            {
+                StartCoroutine(
+                    PlayLavaDamage());
+
+                return;
+            }
+
+
+            // ================================
+            // ISLAND / EMPTY
+            // ================================
+
+            TileClicked?.Invoke(
+                _x,
+                _y);
         }
 
 
         /// <summary>
         /// Plays the diamond collection animation.
-        /// The diamond first grows and then disappears.
+        ///
+        /// Diamond:
+        /// 1. Scales up.
+        /// 2. Disappears.
+        /// 3. Shows +1 popup.
+        /// 4. Sends click to game logic.
         /// </summary>
         private IEnumerator CollectDiamond()
         {
@@ -156,9 +221,9 @@ namespace EscapeTheLava.View
             float elapsed = 0f;
 
 
-            // -------------------------------
-            // 1. Scale the diamond up
-            // -------------------------------
+            // ================================
+            // 1. SCALE DIAMOND UP
+            // ================================
 
             while (elapsed < collectDuration)
             {
@@ -167,6 +232,12 @@ namespace EscapeTheLava.View
 
                 float t =
                     elapsed / collectDuration;
+
+
+                t = Mathf.SmoothStep(
+                    0f,
+                    1f,
+                    t);
 
 
                 diamond.localScale =
@@ -180,42 +251,54 @@ namespace EscapeTheLava.View
             }
 
 
-            diamond.localScale = targetScale;
+            // Make sure final scale is correct.
+            diamond.localScale =
+                targetScale;
 
 
-            // -------------------------------
-            // 2. Disable the diamond
-            // -------------------------------
+            // ================================
+            // 2. DISABLE DIAMOND
+            // ================================
 
             diamondView.gameObject.SetActive(false);
 
 
-            // -------------------------------
-            // 3. Show +1 popup
-            // -------------------------------
+            // ================================
+            // 3. SHOW +1 POPUP
+            // ================================
 
             ShowScorePopup();
 
 
+            // ================================
+            // 4. ALLOW CLICK AGAIN
+            // ================================
+
             _isCollecting = false;
 
 
-            // -------------------------------
-            // 4. Tell the game logic
-            //    that the diamond was collected
-            // -------------------------------
+            // ================================
+            // 5. TELL GAME LOGIC
+            // ================================
 
-            TileClicked?.Invoke(_x, _y);
+            TileClicked?.Invoke(
+                _x,
+                _y);
         }
 
+
+        /// <summary>
+        /// Displays the +1 popup exactly
+        /// at the clicked tile's position.
+        /// </summary>
         private void ShowScorePopup()
         {
             if (scorePopupPrefab == null)
                 return;
 
 
-            // Create the popup under the same parent
-            // as the TileView.
+            // Create the popup under the
+            // same parent as the TileView.
             ScorePopup popup =
                 Instantiate(
                     scorePopupPrefab,
@@ -230,21 +313,57 @@ namespace EscapeTheLava.View
                 GetComponent<RectTransform>();
 
 
-            // Put the popup exactly where
-            // this tile is located.
+            // Put popup at this tile's position.
             popupRect.anchoredPosition =
                 tileRect.anchoredPosition;
 
 
-            // Start the animation.
+            // Start popup animation.
             popup.Play(1);
         }
 
 
         /// <summary>
-        /// Sends the clicked tile position
-        /// to GridRenderer/GameManager.
+        /// Plays the lava damage effect.
+        ///
+        /// Lava:
+        /// 1. Shows burn effect.
+        /// 2. Burn effect pops up.
+        /// 3. Burn effect jiggles.
+        /// 4. Burn effect disappears.
+        /// 5. Sends click to game logic.
         /// </summary>
-        public event Action<int, int> TileClicked;
+        private IEnumerator PlayLavaDamage()
+        {
+            _isCollecting = true;
+
+
+            // Play burn effect.
+            if (burnEffect != null)
+            {
+                burnEffect.Play(
+                    burnScale,
+                    burnDuration,
+                    burnJiggleAmount,
+                    burnJiggleDuration);
+            }
+
+
+            // Wait until the visual effect
+            // has finished.
+            yield return new WaitForSeconds(
+                burnDuration +
+                burnJiggleDuration);
+
+
+            _isCollecting = false;
+
+
+            // Tell GameManager/GameService
+            // that lava was clicked.
+            TileClicked?.Invoke(
+                _x,
+                _y);
+        }
     }
 }
