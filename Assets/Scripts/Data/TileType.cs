@@ -6,6 +6,7 @@ namespace EscapeTheLava.Data
     /// </summary>
     public enum TileType
     {
+        Empty,
         Island,
         Diamond,
         Lava
