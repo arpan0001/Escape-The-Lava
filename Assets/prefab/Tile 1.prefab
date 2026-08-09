@@ -165,17 +165,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lavaImage: {fileID: 6553219090281467847}
   lavaFrames:
-  - {fileID: 1675701307802316017, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
-  - {fileID: -1599457965912658613, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
-  - {fileID: 4287215539234064356, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 3360542363870964184, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
   - {fileID: 2038585046654197540, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
   - {fileID: 4955599213856037517, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
-  - {fileID: 3360542363870964184, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
   - {fileID: 4725864100297105807, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
-  - {fileID: -5245836818984452918, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
-  - {fileID: 1675701307802316017, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
-  - {fileID: -5938891538741331847, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
-  framesPerSecond: 6
+  - {fileID: 3360542363870964184, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 2038585046654197540, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 4955599213856037517, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 4725864100297105807, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 3360542363870964184, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 2038585046654197540, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  framesPerSecond: 10
 --- !u!1 &2947840883350535529
 GameObject:
   m_ObjectHideFlags: 0
@@ -495,4 +495,4 @@ MonoBehaviour:
   lavaView: {fileID: 6553219090281467847}
   scorePopupPrefab: {fileID: 8257009278431182374, guid: 311cb287253bd1f44a4695efd6c1b386, type: 3}
   collectScale: 1.3
-  collectDuration: 0.5
+  collectDuration: 0.3
