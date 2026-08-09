@@ -4,12 +4,9 @@ using UnityEngine.UI;
 
 namespace EscapeTheLava.UI
 {
-    /// <summary>
+    
     /// Controls all information shown to the player.
-    ///
-    /// UIManager does not contain gameplay logic.
-    /// It only displays values given to it.
-    /// </summary>
+   
     public class UIManager : MonoBehaviour
     {
         [Header("HUD")]
@@ -37,33 +34,25 @@ namespace EscapeTheLava.UI
 
 
 
-        /// <summary>
+        
         /// Updates the score displayed on screen.
-        /// </summary>
-        public void UpdateScore(
-            int collected,
-            int total)
+        
+        public void UpdateScore(int collected,int total)
         {
-            scoreText.text =
-                $" {collected}/{total}";
+            scoreText.text = $" {collected}/{total}";
         }
 
-        /// <summary>
+        
         /// Updates the current wave.
-        /// </summary>
-        public void UpdateWave(
-            int currentWave,
-            int totalWaves)
+        
+        public void UpdateWave(int currentWave, int totalWaves)
         {
-            waveText.text =
-                $"WAVE {currentWave}/{totalWaves}";
+            waveText.text =$"WAVE {currentWave}/{totalWaves}";
         }
 
-        /// <summary>
         /// Updates the number of visible hearts.
-        /// </summary>
-        public void UpdateLives(
-            int remainingLives)
+       
+        public void UpdateLives( int remainingLives)
         {
             for (int i = 0;
                  i < lifeIcons.Length;
@@ -74,39 +63,34 @@ namespace EscapeTheLava.UI
             }
         }
 
-        /// <summary>
         /// Updates the countdown timer.
-        /// </summary>
-        public void UpdateTimer(
-            float remainingTime)
+        
+        public void UpdateTimer( float remainingTime)
         {
-            int seconds =
-                Mathf.CeilToInt(
-                    remainingTime);
+            int seconds =Mathf.CeilToInt(remainingTime);
 
-            timerText.text =
-                seconds.ToString();
+            timerText.text = seconds.ToString();
         }
 
-        /// <summary>
+      
         /// Shows the win screen.
-        /// </summary>
+       
         public void ShowWin()
         {
             winPanel.SetActive(true);
         }
 
-        /// <summary>
+     
         /// Shows the game over screen.
-        /// </summary>
+       
         public void ShowGameOver()
         {
             gameOverPanel.SetActive(true);
         }
 
-        /// <summary>
+        
         /// Hides both result panels.
-        /// </summary>
+        
         public void HideResultPanels()
         {
             winPanel.SetActive(false);

@@ -1,9 +1,6 @@
 namespace EscapeTheLava.Utilities
 {
-    /// <summary>
-    /// Stores the fixed values used by the game.
-    /// Keeping them here makes the game easier to balance.
-    /// </summary>
+    
     public static class GameConstants
     {
         public const int GridColumns = 16;

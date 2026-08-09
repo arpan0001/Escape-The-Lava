@@ -81,84 +81,58 @@ namespace EscapeTheLava.View
         }
 
 
-        /// <summary>
+      
         /// Makes the diamond smoothly move up and down.
-        /// </summary>
+        
         private void AnimateFloat()
         {
-            float time =
-                (Time.time + _randomOffset) *
-                floatSpeed;
+            float time = (Time.time + _randomOffset) * floatSpeed;
 
-            float offset =
-                Mathf.Sin(time) *
-                floatHeight;
+            float offset =  Mathf.Sin(time) *floatHeight;
 
-            transform.localPosition =
-                _startPosition +
-                Vector3.up * offset;
+            transform.localPosition =_startPosition + Vector3.up * offset;
         }
 
 
-        /// <summary>
+       
         /// Makes the diamond gently tilt
         /// from left to right.
-        /// </summary>
+        
         private void AnimateTilt()
         {
-            float time =
-                (Time.time + _randomOffset) *
-                tiltSpeed;
+            float time = (Time.time + _randomOffset) * tiltSpeed;
 
-            float angle =
-                Mathf.Sin(time) *
-                tiltAngle;
+            float angle = Mathf.Sin(time) * tiltAngle;
 
-            transform.localRotation =
-                _startRotation *
-                Quaternion.Euler(0f, 0f, angle);
+            transform.localRotation = _startRotation * Quaternion.Euler(0f, 0f, angle);
         }
 
 
-        /// <summary>
         /// Makes the diamond slightly grow and shrink.
-        /// </summary>
+        
         private void AnimatePulse()
         {
-            float time =
-                (Time.time + _randomOffset) *
-                pulseSpeed;
+            float time = (Time.time + _randomOffset) * pulseSpeed;
 
-            float scale =
-                1f +
-                Mathf.Sin(time) *
-                pulseAmount;
+            float scale =  1f + Mathf.Sin(time) * pulseAmount;
 
-            transform.localScale =
-                _startScale * scale;
+            transform.localScale = _startScale * scale;
         }
 
 
-        /// <summary>
+        
         /// Creates a soft pulsing shine.
-        /// </summary>
+        
         private void AnimateShine()
         {
             if (shine == null)
                 return;
 
-            float time =
-                (Time.time + _randomOffset) *
-                shineSpeed;
+            float time = (Time.time + _randomOffset) * shineSpeed;
 
-            float value =
-                (Mathf.Sin(time) + 1f) * 0.5f;
+            float value = (Mathf.Sin(time) + 1f) * 0.5f;
 
-            shine.alpha =
-                Mathf.Lerp(
-                    shineMinAlpha,
-                    shineMaxAlpha,
-                    value);
+            shine.alpha =Mathf.Lerp( shineMinAlpha,shineMaxAlpha, value);
         }
     }
 }

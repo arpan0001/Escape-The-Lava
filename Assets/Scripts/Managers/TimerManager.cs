@@ -2,9 +2,9 @@ using EscapeTheLava.Utilities;
 
 namespace EscapeTheLava.Managers
 {
-    /// <summary>
+    
     /// Controls the round countdown.
-    /// </summary>
+    
     public class TimerManager
     {
         public float RemainingTime { get; private set; }
@@ -18,9 +18,9 @@ namespace EscapeTheLava.Managers
                 GameConstants.RoundDuration;
         }
 
-        /// <summary>
+        
         /// Reduces the remaining time.
-        /// </summary>
+        
         public void Update(float deltaTime)
         {
             if (RemainingTime <= 0f)

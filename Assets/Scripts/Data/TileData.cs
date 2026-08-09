@@ -1,8 +1,8 @@
 namespace EscapeTheLava.Data
 {
-    /// <summary>
+    
     /// Stores information about one cell on the board.
-    /// </summary>
+   
     public class TileData
     {
         public int X { get; }

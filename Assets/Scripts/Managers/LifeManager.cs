@@ -2,9 +2,9 @@ using EscapeTheLava.Utilities;
 
 namespace EscapeTheLava.Managers
 {
-    /// <summary>
+    
     /// Keeps track of the player's remaining lives.
-    /// </summary>
+  
     public class LifeManager
     {
         public int RemainingLives { get; private set; }
@@ -23,9 +23,9 @@ namespace EscapeTheLava.Managers
                 GameConstants.StartingLives;
         }
 
-        /// <summary>
+      
         /// Removes one life.
-        /// </summary>
+       
         public void LoseLife()
         {
             if (RemainingLives <= 0)

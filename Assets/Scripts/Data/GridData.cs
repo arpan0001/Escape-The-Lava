@@ -2,10 +2,10 @@ using System;
 
 namespace EscapeTheLava.Data
 {
-    /// <summary>
+    
     /// Stores the complete logical state of the game board.
     /// This class does not use Unity APIs.
-    /// </summary>
+    
     public class GridData
     {
         private readonly TileData[,] _tiles;
@@ -28,33 +28,29 @@ namespace EscapeTheLava.Data
             _tiles = new TileData[columns, rows];
         }
 
-        /// <summary>
+        
         /// Gets the tile at the given position.
-        /// </summary>
+        
         public TileData GetTile(int x, int y)
         {
-            if (!IsInside(x, y))
-                throw new IndexOutOfRangeException(
-                    $"Grid position ({x}, {y}) is outside the board.");
+            if (!IsInside(x, y))  throw new IndexOutOfRangeException( $"Grid position ({x}, {y}) is outside the board.");
 
             return _tiles[x, y];
         }
 
-        /// <summary>
+        
         /// Places a tile at the given position.
-        /// </summary>
+       
         public void SetTile(int x, int y, TileType type)
         {
-            if (!IsInside(x, y))
-                throw new IndexOutOfRangeException(
-                    $"Grid position ({x}, {y}) is outside the board.");
+            if (!IsInside(x, y)) throw new IndexOutOfRangeException( $"Grid position ({x}, {y}) is outside the board.");
 
             _tiles[x, y] = new TileData(x, y, type);
         }
 
-        /// <summary>
+       
         /// Checks whether a position exists inside the board.
-        /// </summary>
+      
         public bool IsInside(int x, int y)
         {
             return x >= 0 &&
@@ -63,9 +59,9 @@ namespace EscapeTheLava.Data
                    y < Rows;
         }
 
-        /// <summary>
+        
         /// Returns the total number of cells.
-        /// </summary>
+        
         public int CellCount
         {
             get
@@ -74,9 +70,9 @@ namespace EscapeTheLava.Data
             }
         }
 
-        /// <summary>
+        
         /// Clears the entire board.
-        /// </summary>
+        
         public void Clear()
         {
             for (int x = 0; x < Columns; x++)
@@ -88,9 +84,9 @@ namespace EscapeTheLava.Data
             }
         }
 
-        /// <summary>
+        
         /// Counts how many tiles of a specific type exist.
-        /// </summary>
+        
         public int Count(TileType type)
         {
             int count = 0;

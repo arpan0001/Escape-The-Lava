@@ -4,10 +4,7 @@ using EscapeTheLava.Managers;
 
 namespace EscapeTheLava.Core
 {
-    /// <summary>
-    /// Temporary script used to test the logical grid.
-    /// Remove it later after the grid system is verified.
-    /// </summary>
+  
     public class GridTest : MonoBehaviour
     {
         private void Start()

@@ -12,12 +12,10 @@ namespace EscapeTheLava.View
 
         private void Awake()
         {
-            _rectTransform =
-                GetComponent<RectTransform>();
+            _rectTransform =GetComponent<RectTransform>();
 
 
-            _originalPosition =
-                _rectTransform.anchoredPosition;
+            _originalPosition =_rectTransform.anchoredPosition;
 
 
             // Hidden when the game starts.
@@ -25,11 +23,7 @@ namespace EscapeTheLava.View
         }
 
 
-        public void Play(
-            float targetScale,
-            float scaleDuration,
-            float jiggleAmount,
-            float jiggleDuration)
+        public void Play(float targetScale, float scaleDuration, float jiggleAmount, float jiggleDuration)
         {
             StopAllCoroutines();
 
@@ -39,34 +33,20 @@ namespace EscapeTheLava.View
 
 
             // Reset position.
-            _rectTransform.anchoredPosition =
-                _originalPosition;
+            _rectTransform.anchoredPosition = _originalPosition;
 
 
             // Start from zero scale.
-            _rectTransform.localScale =
-                Vector3.zero;
+            _rectTransform.localScale = Vector3.zero;
 
 
-            StartCoroutine(
-                PlayAnimation(
-                    targetScale,
-                    scaleDuration,
-                    jiggleAmount,
-                    jiggleDuration));
+            StartCoroutine( PlayAnimation( targetScale,  scaleDuration,jiggleAmount,jiggleDuration));
         }
 
 
-        private IEnumerator PlayAnimation(
-            float targetScale,
-            float scaleDuration,
-            float jiggleAmount,
-            float jiggleDuration)
+        private IEnumerator PlayAnimation(float targetScale,float scaleDuration,float jiggleAmount, float jiggleDuration)
         {
-            // ================================
-            // POP UP
-            // ================================
-
+          
             float elapsed = 0f;
 
 
@@ -75,34 +55,23 @@ namespace EscapeTheLava.View
                 elapsed += Time.deltaTime;
 
 
-                float t =
-                    elapsed / scaleDuration;
+                float t =  elapsed / scaleDuration;
 
 
-                t = Mathf.SmoothStep(
-                    0f,
-                    1f,
-                    t);
+                t = Mathf.SmoothStep( 0f,1f, t);
 
 
-                _rectTransform.localScale =
-                    Vector3.Lerp(
-                        Vector3.zero,
-                        Vector3.one * targetScale,
-                        t);
+                _rectTransform.localScale = Vector3.Lerp(Vector3.zero, Vector3.one * targetScale, t);
 
 
                 yield return null;
             }
 
 
-            _rectTransform.localScale =
-                Vector3.one * targetScale;
+            _rectTransform.localScale =Vector3.one * targetScale;
 
 
-            // ================================
-            // JIGGLE
-            // ================================
+            
 
             elapsed = 0f;
 
@@ -112,31 +81,19 @@ namespace EscapeTheLava.View
                 elapsed += Time.deltaTime;
 
 
-                float t =
-                    elapsed / jiggleDuration;
+                float t = elapsed / jiggleDuration;
 
 
-                float strength =
-                    1f - t;
+                float strength =1f - t;
 
 
-                float x =
-                    Random.Range(
-                        -jiggleAmount,
-                        jiggleAmount) *
-                    strength;
+                float x = Random.Range( -jiggleAmount,  jiggleAmount) *strength;
 
 
-                float y =
-                    Random.Range(
-                        -jiggleAmount,
-                        jiggleAmount) *
-                    strength;
+                float y =  Random.Range( -jiggleAmount,  jiggleAmount) *  strength;
 
 
-                _rectTransform.anchoredPosition =
-                    _originalPosition +
-                    new Vector2(x, y);
+                _rectTransform.anchoredPosition = _originalPosition +  new Vector2(x, y);
 
 
                 yield return null;
@@ -144,13 +101,11 @@ namespace EscapeTheLava.View
 
 
             // Return to original position.
-            _rectTransform.anchoredPosition =
-                _originalPosition;
+            _rectTransform.anchoredPosition =_originalPosition;
 
 
             // Reset scale.
-            _rectTransform.localScale =
-                Vector3.one;
+            _rectTransform.localScale = Vector3.one;
 
 
             // Hide effect.

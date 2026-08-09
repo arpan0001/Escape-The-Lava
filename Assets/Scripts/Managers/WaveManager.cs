@@ -2,14 +2,9 @@ using EscapeTheLava.Utilities;
 
 namespace EscapeTheLava.Managers
 {
-    /// <summary>
+    
     /// Controls the diamond wave progression.
-    ///
-    /// The game can have any number of waves.
-    /// The number of waves is calculated from:
-    ///
-    /// Total Diamonds / Diamonds Per Wave
-    /// </summary>
+    
     public class WaveManager
     {
         public int TotalDiamonds { get; }
@@ -54,16 +49,14 @@ namespace EscapeTheLava.Managers
 
             DiamondsPerWave = GameConstants.DiamondsPerWave;
 
-            TotalWaves =
-                (TotalDiamonds + DiamondsPerWave - 1)
-                / DiamondsPerWave;
+            TotalWaves =(TotalDiamonds + DiamondsPerWave - 1) / DiamondsPerWave;
 
             Reset();
         }
 
-        /// <summary>
+        
         /// Starts the first wave.
-        /// </summary>
+        
         public void Reset()
         {
             CurrentWave = 1;
@@ -73,9 +66,9 @@ namespace EscapeTheLava.Managers
             DiamondsCollectedThisWave = 0;
         }
 
-        /// <summary>
+       
         /// Called whenever the player collects a diamond.
-        /// </summary>
+        
         public void CollectDiamond()
         {
             DiamondsCollected++;
@@ -83,9 +76,8 @@ namespace EscapeTheLava.Managers
             DiamondsCollectedThisWave++;
         }
 
-        /// <summary>
         /// Starts the next wave.
-        /// </summary>
+       
         public bool StartNextWave()
         {
             if (AllDiamondsCollected)
@@ -98,9 +90,9 @@ namespace EscapeTheLava.Managers
             return true;
         }
 
-        /// <summary>
+        
         /// Returns how many diamonds are still required.
-        /// </summary>
+        
         public int RemainingDiamonds
         {
             get

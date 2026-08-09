@@ -4,12 +4,11 @@ using EscapeTheLava.Utilities;
 
 namespace EscapeTheLava.Core
 {
-    /// <summary>
+    
     /// Main gameplay coordinator.
-    /// 
     /// It does not draw the board.
     /// It coordinates the gameplay systems.
-    /// </summary>
+    
     public class GameService
     {
         private readonly GridManager _gridManager;
@@ -19,26 +18,19 @@ namespace EscapeTheLava.Core
         private readonly TimerManager _timerManager;
 
         public int TotalDiamonds => 25;
-        public GridData Grid =>
-            _gridManager.Grid;
+        public GridData Grid => _gridManager.Grid;
 
-        public int CurrentWave =>
-            _waveManager.CurrentWave;
+        public int CurrentWave => _waveManager.CurrentWave;
 
-        public int TotalWaves =>
-            _waveManager.TotalWaves;
+        public int TotalWaves =>  _waveManager.TotalWaves;
 
-        public int Score =>
-            _scoreManager.Score;
+        public int Score =>  _scoreManager.Score;
 
-        public int RemainingLives =>
-            _lifeManager.RemainingLives;
+        public int RemainingLives => _lifeManager.RemainingLives;
 
-        public int DiamondsCollected =>
-            _waveManager.DiamondsCollected;
+        public int DiamondsCollected =>  _waveManager.DiamondsCollected;
 
-        public float RemainingTime =>
-            _timerManager.RemainingTime;
+        public float RemainingTime => _timerManager.RemainingTime;
 
         public GameState State
         {
@@ -48,24 +40,19 @@ namespace EscapeTheLava.Core
 
         public GameService()
         {
-            _gridManager =
-                new GridManager();
+            _gridManager =new GridManager();
 
-            _waveManager =
-                new WaveManager();
+            _waveManager = new WaveManager();
 
-            _lifeManager =
-                new LifeManager();
+            _lifeManager =new LifeManager();
 
-            _scoreManager =
-                new ScoreManager();
-            _timerManager =
-                 new TimerManager();
+            _scoreManager = new ScoreManager();
+            _timerManager =new TimerManager();
         }
 
-        /// <summary>
+        
         /// Starts a completely new game.
-        /// </summary>
+        
         public void Initialize()
         {
             _waveManager.Reset();
@@ -83,25 +70,23 @@ namespace EscapeTheLava.Core
             _timerManager.Reset();
         }
 
-        /// <summary>
+        
         /// Creates the board for the current wave.
-        /// </summary>
+        
         private void GenerateCurrentWave()
         {
-            _gridManager.GenerateWave(
-                _waveManager.DiamondsInCurrentWave);
+            _gridManager.GenerateWave(_waveManager.DiamondsInCurrentWave);
         }
 
-        /// <summary>
+        
         /// Handles a player click on a grid cell.
-        /// </summary>
+        
         public bool ClickTile(int x, int y)
         {
             if (State != GameState.Playing)
                 return false;
 
-            TileData tile =
-                Grid.GetTile(x, y);
+            TileData tile =  Grid.GetTile(x, y);
 
             switch (tile.Type)
             {
@@ -125,17 +110,12 @@ namespace EscapeTheLava.Core
             return false;
         }
 
-        /// <summary>
+        
         /// Handles diamond collection.
-        /// </summary>
-        private void CollectDiamond(
-                          int x,
-                            int y)
+        
+        private void CollectDiamond(int x,int y)
         {
-            _gridManager.SetTile(
-                x,
-                y,
-                TileType.Island);
+            _gridManager.SetTile( x, y, TileType.Island);
 
             _scoreManager.AddDiamondScore();
 
@@ -153,9 +133,9 @@ namespace EscapeTheLava.Core
             }
         }
 
-        /// <summary>
+      
         /// Handles a player clicking lava.
-        /// </summary>
+        
         private void HitLava()
         {
             _lifeManager.LoseLife();
@@ -166,13 +146,12 @@ namespace EscapeTheLava.Core
             }
         }
 
-        /// <summary>
+        
         /// Creates the next board.
-        /// </summary>
+        
         private void StartNextWave()
         {
-            bool started =
-                _waveManager.StartNextWave();
+            bool started = _waveManager.StartNextWave();
 
             if (!started)
                 return;

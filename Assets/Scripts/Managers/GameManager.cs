@@ -7,10 +7,10 @@ using UnityEngine.SceneManagement;
 
 namespace EscapeTheLava.Managers
 {
-    /// <summary>
+    
     /// Unity entry point for the game.
     /// Connects Unity scene objects with GameService.
-    /// </summary>
+    
     public class GameManager : MonoBehaviour
     {
         [Header("References")]
@@ -24,31 +24,28 @@ namespace EscapeTheLava.Managers
 
         private void Awake()
         {
-            // Create the backend game service.
+           
             _gameService = new GameService();
 
-            // Start a fresh game.
+            
             _gameService.Initialize();
 
-            // Create and display the board.
-            gridRenderer.Initialize(
-                _gameService.Grid);
+            gridRenderer.Initialize( _gameService.Grid);
 
-            // Show the starting UI values.
+           
             UpdateHUD();
         }
 
         private void Update()
         {
-            // Update the game timer.
+           
             _gameService.Update(
                 Time.deltaTime);
 
-            // Update the timer shown on screen.
-            uiManager.UpdateTimer(
-                _gameService.RemainingTime);
+           
+            uiManager.UpdateTimer( _gameService.RemainingTime);
 
-            // Check if the game has ended.
+            
             CheckGameState();
         }
 
@@ -76,16 +73,14 @@ namespace EscapeTheLava.Managers
         private void OnTileClicked(int x, int y)
         {
             // Ask GameService to process the click.
-            bool handled =
-                _gameService.ClickTile(x, y);
+            bool handled =_gameService.ClickTile(x, y);
 
             // Nothing happened.
             if (!handled)
                 return;
 
             // Update the board visuals.
-            gridRenderer.Render(
-                _gameService.Grid);
+            gridRenderer.Render( _gameService.Grid);
 
             // Update score, lives and wave.
             UpdateHUD();
@@ -94,29 +89,23 @@ namespace EscapeTheLava.Managers
             CheckGameState();
         }
 
-        /// <summary>
+      
         /// Updates all gameplay information shown on screen.
-        /// </summary>
+        
         private void UpdateHUD()
         {
-            uiManager.UpdateScore(
-                _gameService.DiamondsCollected,
-                _gameService.TotalDiamonds);
+            uiManager.UpdateScore( _gameService.DiamondsCollected, _gameService.TotalDiamonds);
 
-            uiManager.UpdateLives(
-                _gameService.RemainingLives);
+            uiManager.UpdateLives(_gameService.RemainingLives);
 
-            uiManager.UpdateWave(
-                _gameService.CurrentWave,
-                _gameService.TotalWaves);
+            uiManager.UpdateWave(_gameService.CurrentWave, _gameService.TotalWaves);
 
-            uiManager.UpdateTimer(
-                _gameService.RemainingTime);
+            uiManager.UpdateTimer( _gameService.RemainingTime);
         }
 
-        /// <summary>
+        
         /// Checks whether the player has won or lost.
-        /// </summary>
+        
         private void CheckGameState()
         {
             if (_gameService.State == GameState.Won)
@@ -131,8 +120,7 @@ namespace EscapeTheLava.Managers
 
         public void RestartScene()
         {
-            SceneManager.LoadScene(
-                SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene( SceneManager.GetActiveScene().buildIndex);
         }
     }
 }
