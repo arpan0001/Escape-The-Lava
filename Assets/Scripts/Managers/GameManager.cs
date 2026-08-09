@@ -3,6 +3,7 @@ using EscapeTheLava.Core;
 using EscapeTheLava.View;
 using EscapeTheLava.UI;
 using EscapeTheLava.Utilities;
+using UnityEngine.SceneManagement;
 
 namespace EscapeTheLava.Managers
 {
@@ -128,18 +129,10 @@ namespace EscapeTheLava.Managers
             }
         }
 
-        public void RestartGame()
+        public void RestartScene()
         {
-            gameService.Restart();
-
-            gridRenderer.Render(gameService.Grid);
-
-            uiManager.UpdateHUD(
-                gameService.Score,
-                gameService.RemainingMoves,
-                gameService.Combo);
-
-            uiManager.HideWin();
+            SceneManager.LoadScene(
+                SceneManager.GetActiveScene().buildIndex);
         }
     }
 }

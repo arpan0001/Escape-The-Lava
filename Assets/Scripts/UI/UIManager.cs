@@ -47,10 +47,7 @@ namespace EscapeTheLava.UI
             scoreText.text =
                 $" {collected}/{total}";
         }
-        public void HideWin()
-        {
-            winPanel.SetActive(false);
-        }
+
         /// <summary>
         /// Updates the current wave.
         /// </summary>

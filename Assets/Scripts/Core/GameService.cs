@@ -18,7 +18,7 @@ namespace EscapeTheLava.Core
         private readonly ScoreManager _scoreManager;
         private readonly TimerManager _timerManager;
 
-        public int TotalDiamonds => 15;
+        public int TotalDiamonds => 25;
         public GridData Grid =>
             _gridManager.Grid;
 
