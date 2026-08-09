@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 3869456036359506776}
   - component: {fileID: 3726941870058736684}
   - component: {fileID: 6553219090281467847}
+  - component: {fileID: 6953648753921389379}
   m_Layer: 5
   m_Name: Lava
   m_TagString: Untagged
@@ -140,7 +141,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 695775810, guid: 080cb6d98b00c2645b2c41df5f69bc78, type: 3}
+  m_Sprite: {fileID: 1675701307802316017, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -150,6 +151,31 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6953648753921389379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2946016569944092271}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dddeae92434b7ed4fbb8d40458d9d78b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lavaImage: {fileID: 6553219090281467847}
+  lavaFrames:
+  - {fileID: 1675701307802316017, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: -1599457965912658613, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 4287215539234064356, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 2038585046654197540, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 4955599213856037517, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 3360542363870964184, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 4725864100297105807, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: -5245836818984452918, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: 1675701307802316017, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  - {fileID: -5938891538741331847, guid: 13e67bea87fb50548ba2e503c44b794d, type: 3}
+  framesPerSecond: 6
 --- !u!1 &2947840883350535529
 GameObject:
   m_ObjectHideFlags: 0
